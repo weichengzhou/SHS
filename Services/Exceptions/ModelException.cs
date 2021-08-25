@@ -30,7 +30,7 @@ namespace SHS.Services.Exceptions
         private List<ValidationFailure> _errors;
 
         public ValidationError(string message, List<ValidationFailure> errors)
-            : base(message, "F02")
+            : base(message, "FC0")
         {
             this._errors = errors;
         }

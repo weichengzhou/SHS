@@ -1,4 +1,4 @@
-namespace SHS.Models.Dto
+namespace SHS.Models.Dtos
 {
     public class AgentDto
     {

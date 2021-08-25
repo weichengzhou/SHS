@@ -1,12 +1,9 @@
 <script>
     $(function(){
-        $(".modal-href").click(function(){
-            $(".modal-content").load($(this).data("url"));
-        });
         $(".modal-close").click(function(){
-            $("#modal").modal("hide");
+            $(".modal").modal("hide");
         });
-        $("#modal").on("hide.bs.modal", function(){
+        $(".modal").on("hidden.bs.modal", function(){
             $(".modal-content").html("");
         });
     });

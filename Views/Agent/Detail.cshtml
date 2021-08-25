@@ -1,4 +1,4 @@
-@model SHS.Models.ViewModel.AgentViewModel
+@model SHS.Models.ViewModels.AgentViewModel
 
 <div class="px-5 py-5">
     <!-- 姓名 -->
@@ -43,4 +43,9 @@
             <input class="form-control" value="@Model.CellPhone" disabled />
         </div>
     </div>
+    <div class="btn-group mt-3" role="group">
+        <button type="button" class="btn btn-danger modal-close">關閉</button>
+    </div>
 </div>
+
+<partial name="~/Views/Shared/Scripts/_ModalScripts.cshtml" />

@@ -1,7 +1,7 @@
 using AutoMapper;
 
-using SHS.Models.ViewModel;
-using SHS.Models.Dto;
+using SHS.Models.ViewModels;
+using SHS.Models.Dtos;
 using SHS.Models.Entities;
 
 
@@ -17,6 +17,8 @@ namespace SHS.Services.MapperProfile
                     src => src.MapFrom(s => s.Dob.ToString("yyyy-MM-dd"))
                 ).ReverseMap();
             this.CreateMap<AgentDto, AgentViewModel>()
+                .ReverseMap();
+            this.CreateMap<ImportFileDto, ImportFileViewModel>()
                 .ReverseMap();
         }
     }

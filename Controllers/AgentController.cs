@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using AutoMapper;
 
 using SHS.Services;
 using SHS.Services.Exceptions;
-using SHS.Models.ViewModel;
-using SHS.Models.Dto;
+using SHS.Models.ViewModels;
+using SHS.Models.Dtos;
 
 
 namespace SHS.Controllers
@@ -50,6 +51,45 @@ namespace SHS.Controllers
             return View(agentViewModels);
         }
 
+        /*  Given basic create form, all fields are empty.
+        */
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return PartialView();
+        }
+
+        /*  Post data to create form, call this function.
+            1. Try to create the agent.
+            2. return to index page.
+        */
+        [HttpPost]
+        public IActionResult Create([FromForm]AgentViewModel agentViewModel)
+        {
+            try
+            {
+                if(ModelState.IsValid)
+                {
+                    AgentDto agentDto = this._mapper.Map<AgentDto>(agentViewModel);
+                    this._agentService.CreateAgent(agentDto);
+                    TempData["SuccessMessage"] = "業務員資料更新完成";
+                }
+            }
+            catch(ShsException error)
+            {
+                TempData["ErrorMessage"] = error.Message;
+            }
+            catch(Exception)
+            {
+                TempData["ErrorMessage"] = "系統發生錯誤";
+            }
+            return RedirectToAction("Index");
+        }
+
+        /*  Given basic edit form.
+            1. Get the agent by given id.
+            2. Filled the data into form.
+        */
         [HttpGet]
         public IActionResult Edit(string idNo)
         {
@@ -58,6 +98,10 @@ namespace SHS.Controllers
             return PartialView(agentViewModel);
         }
 
+        /*  Post data to edit form, call this function.
+            1. Try to edit agent.
+            2. return to index page.
+        */
         [HttpPost]
         public IActionResult Edit([FromForm]AgentViewModel agentViewModel)
         {
@@ -81,39 +125,30 @@ namespace SHS.Controllers
             return RedirectToAction("Index");
         }
 
-        /*  Provide the agent data by his id number.
+        /*  Given basic import excel form.
         */
         [HttpGet]
-        public IActionResult Detail(string idNo)
-        {
-            AgentDto agentDto = this._agentService.GetAgentByIdNo(idNo);
-            var agentViewModel = this._mapper.Map<AgentViewModel>(agentDto);
-            return PartialView(agentViewModel);
-        }
-
-        /*  Given basic create form, all fields is empty.
-        */
-        [HttpGet]
-        public IActionResult Create()
+        public IActionResult ImportExcel()
         {
             return PartialView();
         }
 
-        /*  When form post data, enter this function.
-            1. Try to create the agent, return create view with error message when
-               catch exception.
-            2. return index page if the agent created successfully.
+        /*  Post excel file to form, call this function.
+            1. Try to get all agents data in excel.
+            2. Create agent if agent not exist,
+               Update agent if agent exist.
         */
         [HttpPost]
-        public IActionResult Create([FromForm]AgentViewModel agentViewModel)
+        public IActionResult ImportExcel([FromForm]ImportFileViewModel fileViewModel)
         {
             try
             {
                 if(ModelState.IsValid)
                 {
-                    AgentDto agentDto = this._mapper.Map<AgentDto>(agentViewModel);
-                    this._agentService.CreateAgent(agentDto);
-                    TempData["SuccessMessage"] = "業務員資料更新完成";
+                    ImportFileDto fileDto = this._mapper.Map<ImportFileDto>(fileViewModel);
+                    IEnumerable<AgentDto> agentDtos = this._excelService.GetAgentDtos(fileDto);
+                    this._agentService.CreateOrUpdateAgents(agentDtos);
+                    TempData["SuccessMessage"] = "上傳業務員檔案成功";
                 }
             }
             catch(ShsException error)
@@ -125,6 +160,16 @@ namespace SHS.Controllers
                 TempData["ErrorMessage"] = "系統發生錯誤";
             }
             return RedirectToAction("Index");
+        }
+
+        /*  Provide the agent data by id number.
+        */
+        [HttpGet]
+        public IActionResult Detail(string idNo)
+        {
+            AgentDto agentDto = this._agentService.GetAgentByIdNo(idNo);
+            var agentViewModel = this._mapper.Map<AgentViewModel>(agentDto);
+            return PartialView(agentViewModel);
         }
 
         private IEnumerable<AgentViewModel> GetAgentViewModels()

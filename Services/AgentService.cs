@@ -5,7 +5,7 @@ using FluentValidation.Results;
 using SHS.Services.Validators;
 using SHS.Services.Exceptions;
 using SHS.Repositories;
-using SHS.Models.Dto;
+using SHS.Models.Dtos;
 using SHS.Models.Entities;
 
 

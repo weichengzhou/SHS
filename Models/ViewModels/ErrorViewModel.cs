@@ -1,6 +1,6 @@
 namespace SHS.Models.ViewModel
 {
-    public class ErrorViewModel
+    public class ErrorViewModels
     {
         public string ErrorMessage { get; set; }
     }

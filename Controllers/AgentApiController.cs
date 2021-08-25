@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
 using SHS.Services;
 using SHS.Services.Exceptions;
 using SHS.Models;
-using SHS.Models.Dto;
+using SHS.Models.Dtos;
 
 
 namespace SHS.Controllers
@@ -38,8 +37,8 @@ namespace SHS.Controllers
 
             ResponseCode: S00 - Succeed, agent created.
                           F00 - Failed, agent is exist.
+                          FC0 - Failed, agent data is not valid.
                           F99 - Failed, system occurred unexpected error.
-            ResponseResults: Null
         */
         [HttpPost("agent"), MapToApiVersion("1.0")]
         [Produces("application/json")]
@@ -72,8 +71,8 @@ namespace SHS.Controllers
 
             ResponseCode: S01 - Succeed, agent updated.
                           F01 - Failed, agent not exists.
+                          FC0 - Failed, agent data is not valid.
                           F99 - Failed, system occurred unexpected error.
-            ResponseResults: Null
         */
         [HttpPut("agent"), MapToApiVersion("1.0")]
         [Produces("application/json")]
@@ -131,20 +130,21 @@ namespace SHS.Controllers
         /*  Import agent excel to system.
             Version v1d0 (v1.0)
 
-            ResponseCode: S02 - Succeed, import data successfully.
+            ResponseCode: S03 - Succeed, import data successfully.
+                          FC0 - Failed, import file is not valid.
                           F99 - Failed, system occurred unexpected error.
         */
         [HttpPost("agents/importExcel"), MapToApiVersion("1.0")]
         [Produces("application/json")]
-        public IActionResult ImportExcelV1d0(IFormFile file)
+        public IActionResult ImportExcelV1d0([FromForm]ImportFileDto fileDto)
         {
             ShsResponse apiResponse = new ShsResponse();
             try
             {
-                IEnumerable<AgentDto> agentDtos = this._excelService.GetAgentDtos(file);
+                IEnumerable<AgentDto> agentDtos = this._excelService.GetAgentDtos(fileDto);
                 this._agentService.CreateOrUpdateAgents(agentDtos);
-                apiResponse.ResponseCode = "S02";
-                apiResponse.Message = "Excel資料匯入成功";
+                apiResponse.ResponseCode = "S03";
+                apiResponse.Message = "上傳業務員檔案成功";
             }
             catch(ShsException error)
             {

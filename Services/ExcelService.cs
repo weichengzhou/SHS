@@ -10,30 +10,32 @@ using NPOI.HSSF.UserModel;
 using NPOI.XSSF.UserModel;
 using NPOI.SS.UserModel;
 using Npoi.Mapper;
+using FluentValidation.Results;
 
 using SHS.Services.Exceptions;
-using SHS.Models.Dto;
+using SHS.Services.Validators;
+using SHS.Models.Dtos;
 
 
 namespace SHS.Services
 {
     public interface IExcelService
     {
-        IEnumerable<AgentDto> GetAgentDtos(IFormFile file);
+        IEnumerable<AgentDto> GetAgentDtos(ImportFileDto fileDto);
     }
     
     public class ExcelService : IExcelService
     {
-        private List<string> _isAllowedExtension = new List<string>(){
+        private List<string> _isAllowedExtensions = new List<string>(){
             ".xls",
             ".xlsx"
         };
         private long _maxFileSize = 5 * 1024 * 1024;
 
-        public IEnumerable<AgentDto> GetAgentDtos(IFormFile file)
+        public IEnumerable<AgentDto> GetAgentDtos(ImportFileDto fileDto)
         {
-            this.ValidateFile(file);
-            IWorkbook workbook = this.GetWorkbook(file);
+            this.ValidateFileDto(fileDto);
+            IWorkbook workbook = this.GetWorkbook(fileDto.ImportFile);
             Mapper mapper = new Mapper(workbook);
             mapper.Map<AgentDto>("姓名", agent => agent.Name)
                   .Map<AgentDto>("身份字號", agent => agent.IdNo)
@@ -50,26 +52,16 @@ namespace SHS.Services
             return agentDtos;
         }
 
-        private void ValidateFile(IFormFile file)
+        private void ValidateFileDto(ImportFileDto fileDto)
         {
-            if(file is null)
-                throw new FileIsNullError("未傳輸任何檔案");
-            string fileExtension = Path.GetExtension(file.FileName);
-            if(!this.IsAllowedExtension(fileExtension))
+            ImportFileDtoValidator validator = new ImportFileDtoValidator(
+                this._isAllowedExtensions,
+                this.MaxFileSize
+            );
+            ValidationResult results = validator.Validate(fileDto);
+            if(!results.IsValid)
             {
-                string errorMessage = string.Format(
-                    "檔案類型必須為{0}",
-                    string.Join(",", this._isAllowedExtension.ToArray())
-                );
-                throw new FileExtensionError(errorMessage);
-            }
-            if(!this.IsAllowedSize(file.Length))
-            {
-                string errorMessage = string.Format(
-                    "檔案大小必須小於{0}",
-                    this.MaxFileSize
-                );
-                throw new FileSizeError(errorMessage);
+                throw new ValidationError("上傳檔案驗證失敗", results.Errors);
             }
         }
 
@@ -94,21 +86,6 @@ namespace SHS.Services
                 default:
                     return null;
             }
-        }
-
-        private bool IsAllowedExtension(string fileExtension)
-        {
-            string lowerCaseExtension = fileExtension.ToLower();
-            return this._isAllowedExtension.Contains(lowerCaseExtension);
-        }
-
-        private bool IsAllowedSize(long fileSize)
-        {
-            if(fileSize > this.MaxFileSize)
-            {
-                return false;
-            }
-            return true;
         }
 
         public long MaxFileSize

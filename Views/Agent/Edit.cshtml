@@ -1,4 +1,4 @@
-@model SHS.Models.ViewModel.AgentViewModel
+@model SHS.Models.ViewModels.AgentViewModel
 
 <partial name="~/Views/Shared/Components/_Alert.cshtml"/>
 <div class="px-5 py-5">
@@ -8,7 +8,7 @@
             <label class="col-sm-2 col-form-label">姓名</label>
             <div class="col-sm-6">
                 <input class="form-control" asp-for="Name" value="@Model.Name" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <span class="text-danger" asp-validation-for="Name"></span>
             </div>
         </div>
         <!-- 身份證字號 -->
@@ -16,7 +16,7 @@
             <label class="col-sm-2 col-form-label">身份證字號</label>
             <div class="col-sm-6">
                 <input class="form-control" asp-for="IdNo" value="@Model.IdNo" readonly />
-                <span asp-validation-for="IdNo" class="text-danger"></span>
+                <span class="text-danger" asp-validation-for="IdNo"></span>
             </div>
         </div>
         <!-- 業務員編號 -->
@@ -24,7 +24,7 @@
             <label class="col-sm-2 col-form-label">業務員編號</label>
             <div class="col-sm-6">
                 <input class="form-control" asp-for="AgentNo" value="@Model.AgentNo" />
-                <span asp-validation-for="AgentNo" class="text-danger"></span>
+                <span class="text-danger" asp-validation-for="AgentNo"></span>
             </div>
         </div>
         <!-- 生日 -->
@@ -44,7 +44,7 @@
             <label class="col-sm-2 col-form-label">電子信箱</label>
             <div class="col-sm-6">
                 <input class="form-control" asp-for="Email" value="@Model.Email" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+                <span class="text-danger" asp-validation-for="Email"></span>
             </div>
         </div>
         <!-- 電話 -->
@@ -52,7 +52,7 @@
             <label class="col-sm-2 col-form-label">行動電話</label>
             <div class="col-sm-6">
                 <input class="form-control" asp-for="CellPhone" value="@Model.CellPhone" />
-                <span asp-validation-for="CellPhone" class="text-danger"></span>
+                <span class="text-danger" asp-validation-for="CellPhone"></span>
             </div>
         </div>
         <div class="btn-group mt-3" role="group">
@@ -64,4 +64,4 @@
 
 <partial name="~/Views/Shared/Scripts/_DatepickerScripts.cshtml" />
 <partial name="~/Views/Shared/Scripts/_ValidationScripts.cshtml" />
-<partial name="~/Views/Shared/Scripts/_ModalScripts.cshtml">
+<partial name="~/Views/Shared/Scripts/_ModalScripts.cshtml" />

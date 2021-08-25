@@ -1,10 +1,12 @@
-@model IEnumerable<SHS.Models.ViewModel.AgentViewModel>
+@model IEnumerable<SHS.Models.ViewModels.AgentViewModel>
 
 <partial name="~/Views/Shared/Components/_Alert.cshtml"/>
 <partial name="~/Views/Shared/Components/_Modal.cshtml"/>
 <div class="py-3">
-    <a href="" class="modal-href py-5" data-toggle="modal" data-target="#modal"
+    <a href="" class="modal-href py-5" data-toggle="modal" data-target=".modal"
         data-url="/Agent/Create">Create</a>
+    <a href="" class="modal-href px-5 py-5" data-toggle="modal" data-target=".modal"
+        data-url="/Agent/ImportExcel">Import</a>
 </div>
 <div class="table-responsive">
     <table class="table">
@@ -25,11 +27,11 @@
                     <td>@Html.DisplayFor(model => item.Name)</td>
                     <td>@Html.DisplayFor(model => item.AgentNo)</td>
                     <td>
-                        <a href="" class="modal-href" data-toggle="modal" data-target="#modal"
+                        <a href="" class="modal-href" data-toggle="modal" data-target=".modal"
                         data-url="/Agent/Detail?idNo=@item.IdNo">Detail</a>
                     </td>
                     <td>
-                        <a href="" class="modal-href" data-toggle="modal" data-target="#modal"
+                        <a href="" class="modal-href" data-toggle="modal" data-target=".modal"
                         data-url="/Agent/Edit?idNo=@item.IdNo">Edit</a>
                     </td>
                 </tr>
@@ -40,5 +42,9 @@
 
 @section scripts
 {
-    <partial name="~/Views/Shared/Scripts/_ModalScripts.cshtml">
+    <script>
+        $(".modal-href").click(function(){
+            $(".modal-content").load($(this).data("url"));
+        });
+    </script>
 }
