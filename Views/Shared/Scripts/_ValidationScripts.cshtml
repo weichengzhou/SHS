@@ -9,4 +9,38 @@
     }; 
     $.validator.setDefaults(settings);
     $.validator.unobtrusive.options = settings;
+    // Support file size validator
+    $.validator.addMethod("maxsize", function(value, element, params){
+        var uploadSize = parseInt(element.files[0].size);
+        var allowedSize = parseInt(params.maxsize);
+        return uploadSize <= allowedSize;
+    });
+    $.validator.unobtrusive.adapters.add("maxsize", ["maxsize"], function (options){
+        var params = {
+            maxsize: options.params.maxsize
+        };
+        options.rules['maxsize'] = params;
+        if(options.message){
+            options.messages['maxsize'] = options.message;
+        }
+    });
+    // Support file extensions validator
+    $.validator.addMethod("allowedextensions", function(value, element, params){
+        var uploadExtensions = '.' + value.split('.').pop();
+        var allowedextensions = params.allowedextensions.split(",");
+        return allowedextensions.includes(uploadExtensions);
+    });
+    $.validator.unobtrusive.adapters.add(
+        "allowedextensions",
+        ["allowedextensions"],
+        function(options){
+            var params = {
+                allowedextensions: options.params.allowedextensions
+            };
+            options.rules['allowedextensions'] = params;
+            if(options.message){
+                options.messages['allowedextensions'] = options.message;
+            }
+        }
+    );
 </script>

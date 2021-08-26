@@ -47,7 +47,7 @@ namespace SHS.Models.ValidAttributes
                 this.MaxSize.ToString()
             );
         }
-        
+
         public string GetErrorMessage()
         {
             return $"檔案不可超過{this.MaxSize} bytes.";
@@ -56,7 +56,7 @@ namespace SHS.Models.ValidAttributes
         public int MaxSize { get; }
     }
 
-    public class AllowedExtensionsAttribute : ValidationAttribute
+    public class AllowedExtensionsAttribute : ValidationAttribute, IClientModelValidator
     {
         private string[] _allowedExtensions;
 
@@ -81,9 +81,29 @@ namespace SHS.Models.ValidAttributes
             return ValidationResult.Success;
         }
 
+        public void AddValidation(ClientModelValidationContext context)
+        {
+            AttributeMethod.MergeAttribute(context.Attributes, "data-val", "true");
+            AttributeMethod.MergeAttribute(
+                context.Attributes,
+                "data-val-allowedextensions",
+                this.GetErrorMessage()
+            );
+            AttributeMethod.MergeAttribute(
+                context.Attributes,
+                "data-val-allowedextensions-allowedextensions",
+                this.AllowedExtensions
+            );
+        }
+
         public string GetErrorMessage()
         {
-            return $"檔案型別僅支援{string.Join(",", this._allowedExtensions)}";
+            return $"檔案型別僅支援{this.AllowedExtensions}";
+        }
+
+        public string AllowedExtensions
+        {
+            get => string.Join(",", this._allowedExtensions);
         }
     }
 }
