@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using FluentValidation.Results;
 
+using SHS.Services;
 using SHS.Models;
 
 
@@ -12,7 +13,9 @@ namespace SHS.Services.Exceptions
     public class AgentExistsError : ShsException
     {
         public AgentExistsError(string message)
-            : base(message, "F00"){}
+            : base(message, ApiResponseCode.AgentIsExist)
+        {
+        }
     }
 
     /*  該物件不存在, 導致後續操作會有問題
@@ -20,7 +23,9 @@ namespace SHS.Services.Exceptions
     public class AgentNotFoundError : ShsException
     {
         public AgentNotFoundError(string message)
-            : base(message, "F01"){}
+            : base(message, ApiResponseCode.AgentNotExist)
+        {
+        }
     }
 
     /*  Dto物件驗證失敗
@@ -30,7 +35,7 @@ namespace SHS.Services.Exceptions
         private List<ValidationFailure> _errors;
 
         public ValidationError(string message, List<ValidationFailure> errors)
-            : base(message, "FC0")
+            : base(message, ApiResponseCode.ValidationError)
         {
             this._errors = errors;
         }

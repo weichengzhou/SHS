@@ -13,7 +13,7 @@ namespace SHS.Services
 {
     public interface IAgentService
     {
-        void CreateAgent(AgentDto agentDto);
+        AgentDto CreateAgent(AgentDto agentDto);
 
         void UpdateAgent(AgentDto agentDto);
 
@@ -35,7 +35,7 @@ namespace SHS.Services
             this._mapper = mapper;
         }
 
-        public void CreateAgent(AgentDto agentDto)
+        public AgentDto CreateAgent(AgentDto agentDto)
         {
             this.ValidateAgentDto(agentDto);
             Agent agent = this._mapper.Map<Agent>(agentDto);
@@ -47,6 +47,7 @@ namespace SHS.Services
             }
             this.AgentRepo.CreateAgent(agent);
             this._unitOfWork.SaveChanges();
+            return this._mapper.Map<AgentDto>(agent);
         }
 
         public void UpdateAgent(AgentDto agentDto)

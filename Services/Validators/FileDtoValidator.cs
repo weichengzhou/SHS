@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using FluentValidation;
 
+using SHS.Services;
 using SHS.Models.Dtos;
 
 
@@ -12,19 +13,19 @@ namespace SHS.Services.Validators
         {
             this.RuleFor(file => file.ImportFile)
                 .NotEmpty()
-                .WithErrorCode(ErrorCode.IsEmpty)
+                .WithErrorCode(ApiResponseCode.IsEmpty)
                 .WithMessage("未傳輸任何檔案");
             this.RuleFor(file => file.ImportFile)
                 .Must(file => {
                     return ValidateFileRule.IsAllowedExtension(file, allowedExtensions);
                 })
-                .WithErrorCode(ErrorCode.FileExtensionUnavailable)
+                .WithErrorCode(ApiResponseCode.FileExtensionUnavailable)
                 .WithMessage("檔案型別有誤");
             this.RuleFor(file => file.ImportFile)
                 .Must(file => {
                     return ValidateFileRule.MaxSize(file, allowedSize);
                 })
-                .WithErrorCode(ErrorCode.ExceedFileSize)
+                .WithErrorCode(ApiResponseCode.ExceedFileSize)
                 .WithMessage("檔案過大");
         }
     }

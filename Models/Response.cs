@@ -1,6 +1,10 @@
 namespace SHS.Models
 {
-    public class ShsResponse
+    public interface IResponse
+    {
+    }    
+
+    public class ShsResponse : IResponse
     {
         public string ResponseCode { get; set; }
 
