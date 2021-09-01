@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.Annotations;
 
 using SHS.Controllers.Exceptions;
 using SHS.Services;
+using SHS.Services.Exceptions;
 using SHS.Models;
 using SHS.Models.Dtos;
 
@@ -14,19 +16,20 @@ namespace SHS.Controllers
 {
     /// Controller for API which provide resource of agents.
     [Route("api/v{version:apiVersion}")]
+    [ControllerName("Agent")]
     [ApiController]
-    public class AgentApiController : ControllerBase
+    public class AgentV1d0Controller : ControllerBase
     {
         private IAgentService _agentService;
         private IExcelService _excelService;
         private IApiExceptionHandler _exceptionHandler;
         private ILogger _logger;
 
-        public AgentApiController(
+        public AgentV1d0Controller(
             IAgentService agentService,
             IExcelService excelService,
             IApiExceptionHandler exceptionHandler,
-            ILogger<AgentApiController> logger
+            ILogger<AgentV1d0Controller> logger
         )
         {
             this._agentService = agentService;
@@ -55,13 +58,13 @@ namespace SHS.Controllers
             {
                 AgentDto createdAgentDto = this._agentService.CreateAgent(agentDto);
                 ShsResponse apiResponse = new ShsResponse(){
-                    ResponseCode = "S00",
+                    ResponseCode = ApiResponseCode.CreateAgent,
                     Message = "業務員資料新增成功"
                 };
                 Uri createdUrl = new Uri($"{Request.Path}/{createdAgentDto.IdNo}");
                 return this.Created(createdUrl, apiResponse);
             }
-            catch(IException exception)
+            catch(AbcException exception)
             {
                 this._logger.LogError(exception.Message);
                 IResponse apiResponse = this.GetErrorResponse(exception);
@@ -69,14 +72,18 @@ namespace SHS.Controllers
             }
         }
 
-        /*  Update agent if agent is exist.
-            Version v1d0 (v1.0)
-
-            ResponseCode: S01 - Succeed, agent updated.
-                          F01 - Failed, agent not exists.
-                          FC0 - Failed, agent data is not valid.
-                          F99 - Failed, system occurred unexpected error.
-        */
+        /// <summary>
+        /// Update agent if agent is exist.
+        /// </summary>
+        /// <remarks>
+        /// ### Version : ###
+        /// - 1.0
+        /// ### Response Code : ###
+        /// - S01 - Succeed, agent is updated.
+        /// - F01 - Failed, agent not exists.
+        /// - FC0 - Failed, agent data is not valid.
+        /// - F99 - Failed, system occurred unexpected error.
+        /// </remarks>
         [HttpPut("agent"), MapToApiVersion("1.0")]
         [Produces("application/json")]
         public IActionResult UpdateAgentV1d0([FromBody]AgentDto agentDto)
@@ -85,11 +92,11 @@ namespace SHS.Controllers
             {
                 ShsResponse apiResponse = new ShsResponse();
                 this._agentService.UpdateAgent(agentDto);
-                apiResponse.ResponseCode = "S01";
+                apiResponse.ResponseCode = ApiResponseCode.UpdateAgent;
                 apiResponse.Message = "業務員資料更新完成";
                 return this.StatusCode(200, apiResponse);
             }
-            catch(IException exception)
+            catch(AbcException exception)
             {
                 this._logger.LogError(exception.Message);
                 IResponse apiResponse = this.GetErrorResponse(exception);
@@ -97,12 +104,16 @@ namespace SHS.Controllers
             }
         }
 
-        /*  Get all agents.
-            Version v1d0 (v1.0)
-
-            ResponseCode: S02 - Succeed, get all agents.
-                          F99 - Failed, system occurred unexpected error.
-        */
+        /// <summary>
+        /// Get all agents.
+        /// </summary>
+        /// <remarks>
+        /// ### Version : ###
+        /// - 1.0
+        /// ### Response Code : ###
+        /// - S02 - Succeed, get all agents data.
+        /// - F99 - Failed, system occurred unexpected error.
+        /// </remarks>
         [HttpGet("agents"), MapToApiVersion("1.0")]
         [Produces("application/json")]
         public IActionResult GetAllAgentsV1d0()
@@ -111,12 +122,12 @@ namespace SHS.Controllers
             {
                 ShsResponse apiResponse = new ShsResponse();
                 IEnumerable<AgentDto> agentDtos = this._agentService.GetAllAgents();
-                apiResponse.ResponseCode = "S02";
+                apiResponse.ResponseCode = ApiResponseCode.GetAgents;
                 apiResponse.Message = "取得所有業務員資料成功";
                 apiResponse.Results = agentDtos;
                 return this.StatusCode(200, apiResponse);
             }
-            catch(IException exception)
+            catch(AbcException exception)
             {
                 this._logger.LogError(exception.Message);
                 IResponse apiResponse = this.GetErrorResponse(exception);
@@ -124,6 +135,16 @@ namespace SHS.Controllers
             }
         }
 
+        /// <summary>
+        /// Get agent by id number.
+        /// </summary>
+        /// <remarks>
+        /// ### Version : ###
+        /// - 1.0
+        /// ### Response Code : ###
+        /// - S02 - Succeed, get agent data.
+        /// - F99 - Failed, system occurred unexpected error.
+        /// </remarks>
         [HttpGet("agent"), MapToApiVersion("1.0")]
         [Produces("application/json")]
         public IActionResult GetAgentByIdNoV1d0(string idNo)
@@ -132,13 +153,13 @@ namespace SHS.Controllers
             {
                 AgentDto agentDto = this._agentService.GetAgentByIdNo(idNo);
                 ShsResponse apiResponse = new ShsResponse{
-                    ResponseCode = "S02",
+                    ResponseCode = ApiResponseCode.GetAgent,
                     Message = "取得業務員資料成功",
                     Results = agentDto
                 };
                 return this.StatusCode((int)HttpStatusCode.OK, apiResponse);
             }
-            catch(IException exception)
+            catch(AbcException exception)
             {
                 this._logger.LogError(exception.Message);
                 IResponse apiResponse = this.GetErrorResponse(exception);
@@ -153,24 +174,25 @@ namespace SHS.Controllers
         /// ### Version : ###
         /// - 1.0
         /// ### Response Code : ###
-        /// - S03 - Succeed, import data successfully.
-        /// - FC0 - Failed, import file is not valid.
+        /// - S03 - Succeed, import agents data successfully.
+        /// - FC0 - Failed, agent data is not valid in file.
+        /// - F99 - Failed, system occurred unexpected error.
         /// </remarks>
         [HttpPost("agents/import"), MapToApiVersion("1.0")]
         [Produces("application/json")]
-        public IActionResult ImportAgentsV1d0([FromForm]ImportFileDto fileDto)
+        public IActionResult ImportAgentsV1d0([FromForm]ExcelFileDto fileDto)
         {
             try
             {
                 IEnumerable<AgentDto> agentDtos = this._excelService.GetAgentDtos(fileDto);
                 this._agentService.CreateOrUpdateAgents(agentDtos);
                 ShsResponse apiResponse = new ShsResponse(){
-                    ResponseCode = "S03",
+                    ResponseCode = ApiResponseCode.ImportAgents,
                     Message = "上傳業務員檔案成功"
                 };
                 return this.StatusCode((int)HttpStatusCode.OK, apiResponse);
             }
-            catch(IException exception)
+            catch(AbcException exception)
             {
                 this._logger.LogError(exception.Message);
                 IResponse apiResponse = this.GetErrorResponse(exception);
@@ -178,7 +200,12 @@ namespace SHS.Controllers
             }
         }
 
-        private IResponse GetErrorResponse(Exception exception)
+        /// <summary>
+        /// Get error response by handler.
+        /// </summary>
+        /// <param name="exception">The exception which raised by system.</param>
+        /// <returns>The api response which pack error message.</returns>
+        private IResponse GetErrorResponse(AbcException exception)
         {
             return this._exceptionHandler.BuildErrorResponse(exception);
         }

@@ -139,13 +139,13 @@ namespace SHS.Controllers
                Update agent if agent exist.
         */
         [HttpPost]
-        public IActionResult ImportExcel([FromForm]ImportFileViewModel fileViewModel)
+        public IActionResult ImportExcel([FromForm]ExcelFileViewModel fileViewModel)
         {
             try
             {
                 if(ModelState.IsValid)
                 {
-                    ImportFileDto fileDto = this._mapper.Map<ImportFileDto>(fileViewModel);
+                    ExcelFileDto fileDto = this._mapper.Map<ExcelFileDto>(fileViewModel);
                     IEnumerable<AgentDto> agentDtos = this._excelService.GetAgentDtos(fileDto);
                     this._agentService.CreateOrUpdateAgents(agentDtos);
                     TempData["SuccessMessage"] = "上傳業務員檔案成功";

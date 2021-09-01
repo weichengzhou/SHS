@@ -7,7 +7,7 @@ using SHS.Models;
 
 namespace SHS.Services.Exceptions
 {
-    /*  該物件已經存在, 導致後續操作會有問題
+    /*  The agent is exist, cause the operation error.
         For example, cannot create if the object is exist.
     */
     public class AgentExistsError : ShsException
@@ -18,7 +18,7 @@ namespace SHS.Services.Exceptions
         }
     }
 
-    /*  該物件不存在, 導致後續操作會有問題
+    /*  The agent is not exist, cause the operation error.
     */
     public class AgentNotFoundError : ShsException
     {
@@ -28,7 +28,7 @@ namespace SHS.Services.Exceptions
         }
     }
 
-    /*  Dto物件驗證失敗
+    /*  Dto object validation error.
     */
     public class ValidationError : ShsException
     {

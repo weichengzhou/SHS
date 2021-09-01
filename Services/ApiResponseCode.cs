@@ -2,6 +2,31 @@ namespace SHS.Services
 {
     public class ApiResponseCode
     {
+        public static string CreateAgent
+        {
+            get => "S00";
+        }
+
+        public static string UpdateAgent
+        {
+            get => "S01";
+        }
+
+        public static string GetAgents
+        {
+            get => "S02";
+        }
+
+        public static string GetAgent
+        {
+            get => "S02";
+        }
+
+        public static string ImportAgents
+        {
+            get => "S03";
+        }
+
         public static string AgentIsExist
         {
             get => "F00";
@@ -39,12 +64,12 @@ namespace SHS.Services
 
         public static string FileExtensionUnavailable
         {
-            get => "FE0";
+            get => "FF0";
         }
 
         public static string ExceedFileSize
         {
-            get => "FE1";
+            get => "FF1";
         }
         
         public static string UnexpectedError

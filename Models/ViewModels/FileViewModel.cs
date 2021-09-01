@@ -7,11 +7,11 @@ using SHS.Models.ValidAttributes;
 
 namespace SHS.Models.ViewModels
 {
-    public class ImportFileViewModel
+    public class ExcelFileViewModel
     {
         [Required(ErrorMessage = "請選擇上傳檔案")]
         [MaxSize]
         [AllowedExtensions(new string[]{".xlsx", ".xls"})]
-        public IFormFile ImportFile { get; set; }
+        public IFormFile ExcelFile { get; set; }
     }
 }

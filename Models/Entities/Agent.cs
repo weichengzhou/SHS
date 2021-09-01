@@ -12,7 +12,7 @@ namespace SHS.Models.Entities
 
         public string AgentNo { get; set; }
 
-        public DateTime Dob { get; set; }
+        public DateTime? Dob { get; set; }
 
         public string Email { get; set; }
         

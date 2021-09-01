@@ -3,6 +3,7 @@
     1. import excel
 */
 using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
@@ -21,7 +22,7 @@ namespace SHS.Services
 {
     public interface IExcelService
     {
-        IEnumerable<AgentDto> GetAgentDtos(ImportFileDto fileDto);
+        IEnumerable<AgentDto> GetAgentDtos(ExcelFileDto fileDto, int sheetIndex=0);
     }
     
     public class ExcelService : IExcelService
@@ -32,10 +33,10 @@ namespace SHS.Services
         };
         private long _maxFileSize = 5 * 1024 * 1024;
 
-        public IEnumerable<AgentDto> GetAgentDtos(ImportFileDto fileDto)
+        public IEnumerable<AgentDto> GetAgentDtos(ExcelFileDto fileDto, int sheetIndex=0)
         {
             this.ValidateFileDto(fileDto);
-            IWorkbook workbook = this.GetWorkbook(fileDto.ImportFile);
+            IWorkbook workbook = this.GetWorkbook(fileDto.ExcelFile);
             Mapper mapper = new Mapper(workbook);
             mapper.Map<AgentDto>("姓名", agent => agent.Name)
                   .Map<AgentDto>("身份字號", agent => agent.IdNo)
@@ -45,16 +46,16 @@ namespace SHS.Services
                   .Map<AgentDto>("行動電話", agent => agent.CellPhone);
             var rowInfos = mapper.Take<AgentDto>().ToList();
             List<AgentDto> agentDtos = new List<AgentDto>();
-            foreach(RowInfo<AgentDto> rowInfo in rowInfos)
+            foreach(var rowInfo in rowInfos)
             {
                 agentDtos.Add(rowInfo.Value);
             }
             return agentDtos;
         }
 
-        private void ValidateFileDto(ImportFileDto fileDto)
+        private void ValidateFileDto(ExcelFileDto fileDto)
         {
-            ImportFileDtoValidator validator = new ImportFileDtoValidator(
+            ExcelFileDtoValidator validator = new ExcelFileDtoValidator(
                 this._isAllowedExtensions,
                 this.MaxFileSize
             );

@@ -36,7 +36,6 @@ namespace SHS.Models
                 .HasComment("業務員編號");
 
             agentBuilder.Property(agent => agent.CellPhone)
-                .IsRequired()
                 .HasMaxLength(10)
                 .HasColumnName("cell_phone")
                 .HasComment("業務員電話");
@@ -47,7 +46,6 @@ namespace SHS.Models
                 .HasComment("業務員生日");
 
             agentBuilder.Property(agent => agent.Email)
-                .IsRequired()
                 .HasMaxLength(320)
                 .HasColumnName("email")
                 .HasComment("業務員信箱");

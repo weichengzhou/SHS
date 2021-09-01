@@ -1,3 +1,4 @@
+using System;
 using AutoMapper;
 
 using SHS.Models.ViewModels;
@@ -14,11 +15,14 @@ namespace SHS.Services.MapperProfile
             this.CreateMap<Agent, AgentDto>()
                 .ForMember(
                     dest => dest.Dob,
-                    src => src.MapFrom(s => s.Dob.ToString("yyyy-MM-dd"))
-                ).ReverseMap();
+                    opt => opt.MapFrom(src =>
+                        src.Dob.HasValue ?
+                        ((DateTime)src.Dob).ToString("yyyy-MM-dd") :
+                        null))
+                .ReverseMap();
             this.CreateMap<AgentDto, AgentViewModel>()
                 .ReverseMap();
-            this.CreateMap<ImportFileDto, ImportFileViewModel>()
+            this.CreateMap<ExcelFileDto, ExcelFileViewModel>()
                 .ReverseMap();
         }
     }

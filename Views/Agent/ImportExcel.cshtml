@@ -1,12 +1,12 @@
-@model SHS.Models.ViewModels.ImportFileViewModel
+@model SHS.Models.ViewModels.ExcelFileViewModel
 
 <div class="px-5 py-5">
     <form action="/Agent/ImportExcel" enctype="multipart/form-data" method="POST">
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">上傳檔案</label>
             <div class="col-sm-6">
-                <input class="form-control-file file-input" type="file" asp-for="ImportFile" />
-                <span class="text-danger" asp-validation-for="ImportFile"></span>
+                <input class="form-control-file file-input" type="file" asp-for="ExcelFile" />
+                <span class="text-danger" asp-validation-for="ExcelFile"></span>
             </div>
         </div>
         <div class="btn-group mt-3" role="group">

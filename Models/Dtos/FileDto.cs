@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Http;
 
 namespace SHS.Models.Dtos
 {
-    public class ImportFileDto
+    public class ExcelFileDto
     {
-        public IFormFile ImportFile { get; set; }
+        public IFormFile ExcelFile { get; set; }
     }
 }
