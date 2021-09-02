@@ -13,8 +13,9 @@ using SHS.Models.Dtos;
 
 namespace SHS.Controllers
 {
-    /*  Controller that decide which view will display and provide AgentViewModel.
-    */
+    /// <summary>
+    /// Controller that decide which view will display and provide AgentViewModel.
+    /// </summary>
     public class AgentController : Controller
     {
         private IAgentService _agentService;
@@ -35,11 +36,12 @@ namespace SHS.Controllers
             this._logger = logger;
         }
 
-        /*  Index of Agents page.
-            1. Provide the table that contains all agents.
-            2. Link to Detail page, Edit page links.
-            3. Has a button to create page.
-        */
+        /// <summary>
+        /// Index of Agents page.
+        /// 1. Provide the table that contains all agents.
+        /// 2. Link to Detail page, Edit page links.
+        /// 3. Has a button to create page.
+        /// </summary>
         [HttpGet]
         public IActionResult Index()
         {
@@ -51,18 +53,21 @@ namespace SHS.Controllers
             return View(agentViewModels);
         }
 
-        /*  Given basic create form, all fields are empty.
-        */
+        /// <summary>
+        /// Given basic create form, all fields are empty.
+        /// </summary>
         [HttpGet]
         public IActionResult Create()
         {
             return PartialView();
         }
 
-        /*  Post data to create form, call this function.
-            1. Try to create the agent.
-            2. return to index page.
-        */
+        /// <summary>
+        /// Post data to create form, call this function.
+        /// 1. Try to create the agent.
+        /// 2. return to index page.
+        /// </summary>
+        /// <param name="agentViewModel">The agent model will create.</param>
         [HttpPost]
         public IActionResult Create([FromForm]AgentViewModel agentViewModel)
         {
@@ -86,10 +91,12 @@ namespace SHS.Controllers
             return RedirectToAction("Index");
         }
 
-        /*  Given basic edit form.
-            1. Get the agent by given id.
-            2. Filled the data into form.
-        */
+        /// <summary>
+        /// Given basic edit form.
+        /// 1. Get the agent by given id.
+        /// 2. Filled the data into form.
+        /// </summary>
+        /// <param name="idNo">The id number of agent.</param>
         [HttpGet]
         public IActionResult Edit(string idNo)
         {
@@ -98,10 +105,12 @@ namespace SHS.Controllers
             return PartialView(agentViewModel);
         }
 
-        /*  Post data to edit form, call this function.
-            1. Try to edit agent.
-            2. return to index page.
-        */
+        /// <summary>
+        /// Post data to edit form, call this function.
+        /// 1. Try to edit agent.
+        /// 2. return to index page.
+        /// </summary>
+        /// <param name="agentViewModel">The agent model will update.</param>
         [HttpPost]
         public IActionResult Edit([FromForm]AgentViewModel agentViewModel)
         {
@@ -125,19 +134,22 @@ namespace SHS.Controllers
             return RedirectToAction("Index");
         }
 
-        /*  Given basic import excel form.
-        */
+        /// <summary>
+        /// Given basic import excel form.
+        /// </summary>
         [HttpGet]
         public IActionResult ImportExcel()
         {
             return PartialView();
         }
 
-        /*  Post excel file to form, call this function.
-            1. Try to get all agents data in excel.
-            2. Create agent if agent not exist,
-               Update agent if agent exist.
-        */
+        /// <summary>
+        /// Post excel file to form, call this function.
+        /// 1. Try to get all agents data in excel.
+        /// 2. Create agent if agent not exist,
+        ///    Update agent if agent exist.
+        /// </summary>
+        /// <param name="fileViewModel">The file model which will import data to system.</param>
         [HttpPost]
         public IActionResult ImportExcel([FromForm]ExcelFileViewModel fileViewModel)
         {
@@ -162,8 +174,10 @@ namespace SHS.Controllers
             return RedirectToAction("Index");
         }
 
-        /*  Provide the agent data by id number.
-        */
+        /// <summary>
+        /// Provide the agent data by id number.
+        /// </summary>
+        /// <param name="idNo">The id number of agent.</param>
         [HttpGet]
         public IActionResult Detail(string idNo)
         {
@@ -172,6 +186,10 @@ namespace SHS.Controllers
             return PartialView(agentViewModel);
         }
 
+        /// <summary>
+        /// Get all agents in system.
+        /// </summary>
+        /// <returns>List of agent which are in system.</returns>
         private IEnumerable<AgentViewModel> GetAgentViewModels()
         {
             IEnumerable<AgentDto> agentDtos = this._agentService.GetAllAgents();

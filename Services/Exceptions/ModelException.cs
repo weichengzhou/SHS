@@ -48,8 +48,8 @@ namespace SHS.Services.Exceptions
                 foreach(ValidationFailure error in this._errors)
                 {
                     results.Add(new ShsFieldError{
-                        Name = error.PropertyName,
-                        Code = error.ErrorCode,
+                        FieldName = error.PropertyName,
+                        ErrorCode = error.ErrorCode,
                         Message = error.ErrorMessage
                     });
                 }

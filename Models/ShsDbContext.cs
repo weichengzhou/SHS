@@ -6,6 +6,8 @@ using SHS.Models.Entities;
 
 namespace SHS.Models
 {
+    /// <summary>
+    /// 
     public class ShsDbContext : DbContext
     {
         public ShsDbContext(DbContextOptions<ShsDbContext> options)

@@ -14,7 +14,9 @@ using SHS.Models.Dtos;
 
 namespace SHS.Controllers
 {
+    /// <summary>
     /// Controller for API which provide resource of agents.
+    /// </summary>
     [Route("api/v{version:apiVersion}")]
     [ControllerName("Agent")]
     [ApiController]
@@ -64,11 +66,10 @@ namespace SHS.Controllers
                 Uri createdUrl = new Uri($"{Request.Path}/{createdAgentDto.IdNo}");
                 return this.Created(createdUrl, apiResponse);
             }
-            catch(AbcException exception)
+            catch(Exception exception)
             {
                 this._logger.LogError(exception.Message);
-                IResponse apiResponse = this.GetErrorResponse(exception);
-                return this.StatusCode((int)HttpStatusCode.BadRequest, apiResponse);
+                return this.GetErrorResponse(exception);
             }
         }
 
@@ -96,11 +97,10 @@ namespace SHS.Controllers
                 apiResponse.Message = "業務員資料更新完成";
                 return this.StatusCode(200, apiResponse);
             }
-            catch(AbcException exception)
+            catch(Exception exception)
             {
                 this._logger.LogError(exception.Message);
-                IResponse apiResponse = this.GetErrorResponse(exception);
-                return this.StatusCode((int)HttpStatusCode.BadRequest, apiResponse);
+                return this.GetErrorResponse(exception);
             }
         }
 
@@ -127,11 +127,10 @@ namespace SHS.Controllers
                 apiResponse.Results = agentDtos;
                 return this.StatusCode(200, apiResponse);
             }
-            catch(AbcException exception)
+            catch(Exception exception)
             {
                 this._logger.LogError(exception.Message);
-                IResponse apiResponse = this.GetErrorResponse(exception);
-                return this.StatusCode((int)HttpStatusCode.BadRequest, apiResponse);
+                return this.GetErrorResponse(exception);
             }
         }
 
@@ -159,11 +158,10 @@ namespace SHS.Controllers
                 };
                 return this.StatusCode((int)HttpStatusCode.OK, apiResponse);
             }
-            catch(AbcException exception)
+            catch(Exception exception)
             {
                 this._logger.LogError(exception.Message);
-                IResponse apiResponse = this.GetErrorResponse(exception);
-                return this.StatusCode((int)HttpStatusCode.BadRequest, apiResponse);
+                return this.GetErrorResponse(exception);
             }
         }
 
@@ -192,22 +190,23 @@ namespace SHS.Controllers
                 };
                 return this.StatusCode((int)HttpStatusCode.OK, apiResponse);
             }
-            catch(AbcException exception)
+            catch(Exception exception)
             {
                 this._logger.LogError(exception.Message);
-                IResponse apiResponse = this.GetErrorResponse(exception);
-                return this.StatusCode((int)HttpStatusCode.BadRequest, apiResponse);
+                return this.GetErrorResponse(exception);
             }
         }
 
         /// <summary>
-        /// Get error response by handler.
+        /// Get error result by handler.
         /// </summary>
         /// <param name="exception">The exception which raised by system.</param>
-        /// <returns>The api response which pack error message.</returns>
-        private IResponse GetErrorResponse(AbcException exception)
+        /// <returns>The api result which pack error message.</returns>
+        private ObjectResult GetErrorResponse(Exception exception)
         {
-            return this._exceptionHandler.BuildErrorResponse(exception);
+            IResponse apiResponse = this._exceptionHandler.GetErrorResponse(exception);
+            int httpCode = this._exceptionHandler.GetHttpCode(exception);
+            return this.StatusCode(httpCode, apiResponse);
         }
     }
 }
