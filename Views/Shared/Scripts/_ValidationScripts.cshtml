@@ -27,7 +27,7 @@
     // Support file extensions validator
     $.validator.addMethod("allowedextensions", function(value, element, params){
         var uploadExtensions = '.' + value.split('.').pop();
-        var allowedextensions = params.allowedextensions.split(",");
+        var allowedextensions = params.allowedextensions.split(", ");
         return allowedextensions.includes(uploadExtensions);
     });
     $.validator.unobtrusive.adapters.add(

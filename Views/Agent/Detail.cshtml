@@ -1,50 +1,59 @@
 @model SHS.Models.ViewModels.AgentViewModel
 
-<div class="px-5 py-5">
-    <!-- 姓名 -->
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label">姓名</label>
-        <div class="col-sm-6">
-            <input class="form-control" value="@Model.Name" disabled />
+<div class="card">
+    <div class="card-body bg-secondary">
+        <div class="px-5 pt-1">
+            <h3 class="card-title text-white">詳細資料</h3>
         </div>
     </div>
-    <!-- 身份證字號 -->
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label">身份證字號</label>
-        <div class="col-sm-6">
-            <input class="form-control" value="@Model.IdNo" disabled />
+    <div class="card-body">
+        <div class="px-5 py-3">
+            <!-- 姓名 -->
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">姓名</label>
+                <div class="col-sm-6">
+                    <input class="form-control" value="@Model.Name" disabled />
+                </div>
+            </div>
+            <!-- 身份證字號 -->
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">身份證字號</label>
+                <div class="col-sm-6">
+                    <input class="form-control" value="@Model.IdNo" disabled />
+                </div>
+            </div>
+            <!-- 業務員編號 -->
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">業務員編號</label>
+                <div class="col-sm-6">
+                    <input class="form-control" value="@Model.AgentNo" disabled />
+                </div>
+            </div>
+            <!-- 生日 -->
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">生日</label>
+                <div class="col-sm-6">
+                    <input class="form-control" value="@Model.Dob" disabled />
+                </div>
+            </div>
+            <!-- 電子信箱 -->
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">電子信箱</label>
+                <div class="col-sm-6">
+                    <input class="form-control" value="@Model.Email" disabled />
+                </div>
+            </div>
+            <!-- 電話 -->
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">行動電話</label>
+                <div class="col-sm-6">
+                    <input class="form-control" value="@Model.CellPhone" disabled />
+                </div>
+            </div>
+            <div class="btn-group mt-3" role="group">
+                <button type="button" class="btn btn-danger modal-close">關閉</button>
+            </div>
         </div>
-    </div>
-    <!-- 業務員編號 -->
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label">業務員編號</label>
-        <div class="col-sm-6">
-            <input class="form-control" value="@Model.AgentNo" disabled />
-        </div>
-    </div>
-    <!-- 生日 -->
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label">生日</label>
-        <div class="col-sm-6">
-            <input class="form-control" value="@Model.Dob" disabled />
-        </div>
-    </div>
-    <!-- 電子信箱 -->
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label">電子信箱</label>
-        <div class="col-sm-6">
-            <input class="form-control" value="@Model.Email" disabled />
-        </div>
-    </div>
-    <!-- 電話 -->
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label">行動電話</label>
-        <div class="col-sm-6">
-            <input class="form-control" value="@Model.CellPhone" disabled />
-        </div>
-    </div>
-    <div class="btn-group mt-3" role="group">
-        <button type="button" class="btn btn-danger modal-close">關閉</button>
     </div>
 </div>
 

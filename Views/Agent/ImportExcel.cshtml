@@ -1,19 +1,28 @@
 @model SHS.Models.ViewModels.ExcelFileViewModel
 
-<div class="px-5 py-5">
-    <form action="/Agent/ImportExcel" enctype="multipart/form-data" method="POST">
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label">上傳檔案</label>
-            <div class="col-sm-6">
-                <input class="form-control-file file-input" type="file" asp-for="ExcelFile" />
-                <span class="text-danger" asp-validation-for="ExcelFile"></span>
-            </div>
+<div class="card">
+    <div class="card-body bg-secondary">
+        <div class="px-5 pt-1">
+            <h3 class="card-title text-white">匯入資料</h3>
         </div>
-        <div class="btn-group mt-3" role="group">
-            <button type="submit" class="btn btn-success">上傳</button>
-            <button type="button" class="btn btn-danger modal-close">取消</button>
+    </div>
+    <div class="card-body">
+        <div class="px-5 py-3">
+            <form action="/Agent/ImportExcel" enctype="multipart/form-data" method="POST">
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">上傳檔案</label>
+                    <div class="col-sm-6">
+                        <input class="form-control-file file-input" type="file" asp-for="ExcelFile" />
+                        <span class="text-danger" asp-validation-for="ExcelFile"></span>
+                    </div>
+                </div>
+                <div class="btn-group mt-3" role="group">
+                    <button type="submit" class="btn btn-success">上傳</button>
+                    <button type="button" class="btn btn-danger modal-close">取消</button>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>
 
 <partial name="~/Views/Shared/Scripts/_ValidationScripts.cshtml" />

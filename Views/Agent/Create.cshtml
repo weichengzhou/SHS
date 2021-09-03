@@ -1,64 +1,73 @@
 @model SHS.Models.ViewModels.AgentViewModel
 
-<div class="px-5 py-5">
-    <form action="/Agent/Create" enctype="multipart/form-data" method="POST">
-        <!-- 姓名 -->
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label">姓名</label>
-            <div class="col-sm-6">
-                <input class="form-control" asp-for="Name"/>
-                <span class="text-danger" asp-validation-for="Name"></span>
-            </div>
+<div class="card">
+    <div class="card-body bg-secondary">
+        <div class="px-5 py-1">
+            <h3 class="card-title text-white">新增資料</h3>
         </div>
-        <!-- 身份證字號 -->
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label">身份證字號</label>
-            <div class="col-sm-6">
-                <input class="form-control" asp-for="IdNo"/>
-                <span class="text-danger" asp-validation-for="IdNo"></span>
-            </div>
-        </div>
-        <!-- 業務員編號 -->
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label">業務員編號</label>
-            <div class="col-sm-6">
-                <input class="form-control" asp-for="AgentNo"/>
-                <span class="text-danger" asp-validation-for="AgentNo"></span>
-            </div>
-        </div>
-        <!-- 生日 -->
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label">生日</label>
-            <div class="col-sm-6">
-                <div class="input-group date" data-provide="datepicker">
-                    <input type="text" class="form-control" asp-for="Dob" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-th"></span>
-                    </span>
+    </div>
+    <div class="card-body">
+        <div class="px-5 py-3">
+            <form action="/Agent/Create" enctype="multipart/form-data" method="POST">
+                <!-- 姓名 -->
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">姓名</label>
+                    <div class="col-sm-6">
+                        <input class="form-control" asp-for="Name"/>
+                        <span class="text-danger" asp-validation-for="Name"></span>
+                    </div>
                 </div>
-            </div>
+                <!-- 身份證字號 -->
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">身份證字號</label>
+                    <div class="col-sm-6">
+                        <input class="form-control" asp-for="IdNo"/>
+                        <span class="text-danger" asp-validation-for="IdNo"></span>
+                    </div>
+                </div>
+                <!-- 業務員編號 -->
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">業務員編號</label>
+                    <div class="col-sm-6">
+                        <input class="form-control" asp-for="AgentNo"/>
+                        <span class="text-danger" asp-validation-for="AgentNo"></span>
+                    </div>
+                </div>
+                <!-- 生日 -->
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">生日</label>
+                    <div class="col-sm-6">
+                        <div class="input-group date" data-provide="datepicker">
+                            <input type="text" class="form-control" asp-for="Dob" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-th"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 電子信箱 -->
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">電子信箱</label>
+                    <div class="col-sm-6">
+                        <input class="form-control" asp-for="Email"/>
+                        <span class="text-danger" asp-validation-for="Email"></span>
+                    </div>
+                </div>
+                <!-- 電話 -->
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">行動電話</label>
+                    <div class="col-sm-6">
+                        <input class="form-control" asp-for="CellPhone"/>
+                        <span class="text-danger" asp-validation-for="CellPhone"></span>
+                    </div>
+                </div>
+                <div class="btn-group mt-3" role="group">
+                    <button type="submit" class="btn btn-success">新增</button>
+                    <button type="button" class="btn btn-danger modal-close">取消</button>
+                </div>
+            </form>
         </div>
-        <!-- 電子信箱 -->
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label">電子信箱</label>
-            <div class="col-sm-6">
-                <input class="form-control" asp-for="Email"/>
-                <span class="text-danger" asp-validation-for="Email"></span>
-            </div>
-        </div>
-        <!-- 電話 -->
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label">行動電話</label>
-            <div class="col-sm-6">
-                <input class="form-control" asp-for="CellPhone"/>
-                <span class="text-danger" asp-validation-for="CellPhone"></span>
-            </div>
-        </div>
-        <div class="btn-group mt-3" role="group">
-            <button type="submit" class="btn btn-success">新增</button>
-            <button type="button" class="btn btn-danger modal-close">取消</button>
-        </div>
-    </form>
+    </div>
 </div>
 
 <partial name="~/Views/Shared/Scripts/_DatepickerScripts.cshtml" />

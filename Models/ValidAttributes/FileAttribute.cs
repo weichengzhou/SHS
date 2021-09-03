@@ -151,7 +151,7 @@ namespace SHS.Models.ValidAttributes
         /// </summary>
         public string AllowedExtensions
         {
-            get => string.Join(",", this._allowedExtensions);
+            get => string.Join(", ", this._allowedExtensions);
         }
     }
 }
