@@ -6,8 +6,14 @@ using SHS.Models.Dtos;
 
 namespace SHS.Services.Validators
 {
+    /// <summary>
+    /// Use FluentValidation to validate agent DTO.
+    /// </summary>
     public class AgentDtoValidator : AbstractValidator<AgentDto>
     {
+        /// <summary>
+        /// Define the validation rule of agent DTO.
+        /// </summary>
         public AgentDtoValidator()
         {
             this.RuleForName();
@@ -18,6 +24,9 @@ namespace SHS.Services.Validators
             this.RuleForCellPhone();
         }
 
+        /// <summary>
+        /// Define the validation rule of name.
+        /// </summary>
         private void RuleForName()
         {
             this.RuleFor(agent => agent.Name)
@@ -30,6 +39,8 @@ namespace SHS.Services.Validators
                 .WithMessage("業務員名稱請不超過10個字");
         }
 
+        /// <summary>
+        /// Define the validation rule of id number.
         private void RuleForIdNo()
         {
             this.RuleFor(agent => agent.IdNo)
@@ -42,6 +53,9 @@ namespace SHS.Services.Validators
                 .WithMessage("業務員身份證字號請不超過10個字");
         }
 
+        /// <summary>
+        /// Define the validation rule of agent number.
+        /// </summary>
         private void RuleForAgentNo()
         {
             this.RuleFor(agent => agent.AgentNo)
@@ -54,6 +68,9 @@ namespace SHS.Services.Validators
                 .WithMessage("業務員編號請不超過10個字");
         }
 
+        /// <summary>
+        /// Define the validation rule of date of birth.
+        /// </summary>
         private void RuleForDob()
         {
             this.RuleFor(agent => agent.Dob)
@@ -62,6 +79,9 @@ namespace SHS.Services.Validators
                 .WithMessage("業務員生日請輸入日期格式");
         }
 
+        /// <summary>
+        /// Define the validation rule of email address.
+        /// </summary>
         private void RuleForEmail()
         {
             this.RuleFor(agent => agent.Email)
@@ -74,6 +94,9 @@ namespace SHS.Services.Validators
                 .WithMessage("電子信箱請不超過320個字");
         }
 
+        /// <summary>
+        /// Define the validation rule of cell phone number.
+        /// </summary>
         private void RuleForCellPhone()
         {
             this.RuleFor(agent => agent.CellPhone)

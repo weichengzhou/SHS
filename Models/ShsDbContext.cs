@@ -7,19 +7,32 @@ using SHS.Models.Entities;
 namespace SHS.Models
 {
     /// <summary>
-    /// 
+    /// Customize DbContext define the structure of database.
+    /// </summary>
     public class ShsDbContext : DbContext
     {
+        /// <summary>
+        /// Customize DbContext, inheritance of DbContext. 
+        /// </summary>
+        /// <param name="options">The DbContext options can be configured by user.</param>
         public ShsDbContext(DbContextOptions<ShsDbContext> options)
             : base(options)
         {
         }
 
+        /// <summary>
+        /// When model created in DbContext, call this.
+        /// </summary>
+        /// <param name="modelBuilder">Used to build model.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Agent>(entity => this.CreateAgentModel(entity));
         }
 
+        /// <summary>
+        /// Create agent model by schema.
+        /// </summary>
+        /// <param name="agentBuilder">Used to build agent model.</param>
         private void CreateAgentModel(EntityTypeBuilder<Agent> agentBuilder)
         {
             agentBuilder.ToTable("agent");
@@ -66,12 +79,24 @@ namespace SHS.Models
                 .HasComment("業務員姓名");
         }
 
+        /// <summary>
+        /// The set of agents in table.
+        /// </summary>
         public virtual DbSet<Agent> Agents { get; set; }
 
+        /// <summary>
+        /// The set of branch offices in table.
+        /// </summary>
         public virtual DbSet<BranchOffice> BranchOffices { get; set; }
 
+        /// <summary>
+        /// The set of insurance certificates in table.
+        /// </summary>
         public virtual DbSet<InsCertificate> InsCertificates { get; set; }
 
+        /// <summary>
+        /// The set of insurance courses in table.
+        /// </summary>
         public virtual DbSet<InsCourse> InsCourses { get; set; }
     }
 }

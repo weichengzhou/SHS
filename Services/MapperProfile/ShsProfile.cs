@@ -8,8 +8,14 @@ using SHS.Models.Entities;
 
 namespace SHS.Services.MapperProfile
 {
+    /// <summary>
+    /// Use to convert two objects if they can reflect.
+    /// </summary>
     public class ShsProfile : Profile
     {
+        /// <summary>
+        /// Constructor of ShsProfile, defined the rule of mapping objects.
+        /// </summary>
         public ShsProfile()
         {
             this.CreateMap<Agent, AgentDto>()
