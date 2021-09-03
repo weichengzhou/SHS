@@ -38,7 +38,7 @@ namespace SHS.Services.Exceptions
         }
     }
 
-    /// <sumamry>
+    /// <summary>
     /// Object validation error, usually used to DTOs.
     /// </summary>
     public class ValidationError : ShsException

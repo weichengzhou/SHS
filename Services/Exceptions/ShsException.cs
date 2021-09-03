@@ -31,7 +31,7 @@ namespace SHS.Services.Exceptions
 
         /// <summary>
         /// Error code.
-        /// </sumamry>
+        /// </summary>
         public virtual string Code
         {
             get => this._code;

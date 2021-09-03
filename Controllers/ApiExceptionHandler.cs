@@ -36,7 +36,7 @@ namespace SHS.Controllers.Exceptions
         {
         }
 
-        /// <sumamry>
+        /// <summary>
         /// Handle exception to ShsResponse.
         /// Ref. Models/Response.cs
         /// </summary>

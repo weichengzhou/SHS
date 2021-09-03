@@ -32,7 +32,7 @@ namespace SHS.Services
         /// <summary>
         /// Foreach agent in params, create agent if agent is non-exist.
         /// Otherwise, update agent.
-        /// </sumamry>
+        /// </summary>
         /// <param name="agentDtos">List of agents.</param>
         void CreateOrUpdateAgents(IEnumerable<AgentDto> agentDtos);
 
@@ -110,7 +110,7 @@ namespace SHS.Services
         /// <summary>
         /// Foreach agent in params, create agent if agent is non-exist.
         /// Otherwise, update agent.
-        /// </sumamry>
+        /// </summary>
         /// <param name="agentDtos">List of agents.</param>
         public void CreateOrUpdateAgents(IEnumerable<AgentDto> agentDtos)
         {
@@ -154,7 +154,7 @@ namespace SHS.Services
             return this._mapper.Map<AgentDto>(agent);
         }
 
-        /// <sumamry>
+        /// <summary>
         /// Validate fields of agent DTO.
         /// </summary>
         /// <param name="agentDto">The data of agent.</param>

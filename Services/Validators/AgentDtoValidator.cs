@@ -41,6 +41,7 @@ namespace SHS.Services.Validators
 
         /// <summary>
         /// Define the validation rule of id number.
+        /// </summary>
         private void RuleForIdNo()
         {
             this.RuleFor(agent => agent.IdNo)

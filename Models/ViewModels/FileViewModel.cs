@@ -13,7 +13,7 @@ namespace SHS.Models.ViewModels
     public class ExcelFileViewModel
     {
         /// <summary>
-        /// The excel file which < 5MB and extensions is xlsx or xls.
+        /// The excel file which less than 5MB and extensions is xlsx or xls.
         /// </summary>
         [Required(ErrorMessage = "請選擇上傳檔案")]
         [MaxSize]

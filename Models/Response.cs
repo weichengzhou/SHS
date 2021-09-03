@@ -46,7 +46,7 @@ namespace SHS.Models
 
         /// <summary>
         /// Message about validation error.
-        /// <summary>
+        /// </summary>
         public string Message { get; set; }
     }
 }

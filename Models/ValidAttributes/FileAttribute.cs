@@ -17,7 +17,7 @@ namespace SHS.Models.ValidAttributes
         /// <summary>
         /// Defaults 5MB (5 * 1024 * 1024)
         /// </summary>
-        /// <param name=maxSize>The maximum of file size.</param>
+        /// <param name="maxSize">The maximum of file size.</param>
         public MaxSizeAttribute(int maxSize=5242880)
         {
             this.MaxSize = maxSize;

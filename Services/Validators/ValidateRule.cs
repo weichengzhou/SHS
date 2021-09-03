@@ -12,10 +12,10 @@ namespace SHS.Services.Validators
     public class ValidateStrRule
     {
         /// <summary>
-        //// Check the value is date format.
+        /// Check the value is date format.
         /// </summary>
         /// <param name="str">The value in field.</param>
-        /// <returns>The value is date format or not.</param>
+        /// <returns>The value is date format or not.</returns>
         public static bool IsDateFormat(string str)
         {
             if(str is null)
